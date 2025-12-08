@@ -1,0 +1,96 @@
+.second-block {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+
+  overflow-x: clip;
+  overflow-y: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem;
+  color: #e6e6e6;
+  font-family: "Inter", sans-serif;
+  text-align: center;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; 
+}
+
+.background-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(15, 15, 20, 0.85) 0%,
+    rgba(5, 5, 10, 0.95) 100%
+  );
+  z-index: 0;
+}
+
+.second-block .about-container {
+  max-width: 800px;
+  z-index: 1;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.second-block .title-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.second-block .about-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #6dd5fa, #2980b9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.second-block .title-gif {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(41, 128, 185, 0.4);
+  flex-shrink: 0;
+}
+
+.second-block .about-text {
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  margin: 1.2rem 0;
+  opacity: 0.9;
+}
+
+.second-block .math-section {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.second-block .math-section:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+}
+
+.second-block .katex-display {
+  margin: 1.5rem 0;
+  font-size: 1.05rem;
+}
+
+.second-block strong {
+  color: #fff;
+}
