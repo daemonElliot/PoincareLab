@@ -93,7 +93,7 @@ This approach captures the combinatorial, compositional and analogical nature of
             We introduce a Bayesian prior over the weight functions:
       <BlockMath math="\alpha_i \sim \mathrm{Dirichlet}(\beta)" /></p>
             <p>and update the posterior using variational inference:
-                <BlockMath math="q(\alpha_i) \propto p(\alpha_i) \\, \exp\Big( \mathbb{E}_{a_t, s_t}[\log p(a_t \mid s_t, \alpha_i)] \Big)" />
+                <BlockMath math="q(\alpha_i) \propto p(\alpha_i) \exp\Big( \mathbb{E}_{a_t, s_t}[\log p(a_t \mid s_t, \alpha_i)] \Big)" />
             </p>
             </motion.div>
       </div>

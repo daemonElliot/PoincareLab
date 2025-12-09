@@ -74,7 +74,6 @@ export default function FirstBlock() {
     setAuthMode((m) => (m === "login" ? "signup" : "login"));
   };
 
-  // Функция плавного скролла к секции
   const scrollToSection = (e, id) => {
     e.preventDefault();
     const section = document.getElementById(id);
