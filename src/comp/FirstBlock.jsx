@@ -2,9 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import "./FirstBlock.css";
 import bgGif from "../assets/analog.gif";
-import sideGif from "../assets/heart.gif";
 import { registerUser, loginUser } from "../api";
-
 
 export default function FirstBlock() {
   const [showModal, setShowModal] = useState(false);
@@ -44,36 +42,45 @@ export default function FirstBlock() {
     }
   };
 
-const handleAuth = async (e) => {
-  e.preventDefault();
-  const form = e.target.closest("form");
-  const formData = new FormData(form);
-  const username = (formData.get("username") || "").trim();
-  const password = (formData.get("password") || "").trim();
-  const email = (formData.get("email") || "").trim();
+  const handleAuth = async (e) => {
+    e.preventDefault();
+    const form = e.target.closest("form");
+    const formData = new FormData(form);
+    const username = (formData.get("username") || "").trim();
+    const password = (formData.get("password") || "").trim();
+    const email = (formData.get("email") || "").trim();
 
-  if (!username || !password || (authMode === "signup" && !email)) {
-    alert("Please fill all required fields.");
-    return;
-  }
-
-  try {
-    if (authMode === "login") {
-      const data = await loginUser({ username, password });
-      alert(`Welcome back, ${data.username}!`);
-    } else {
-      const data = await registerUser({ username, email, password });
-      alert(`Account created for ${data.username}`);
+    if (!username || !password || (authMode === "signup" && !email)) {
+      alert("Please fill all required fields.");
+      return;
     }
-    setShowModal(false);
-  } catch (err) {
-    alert(err.message);
-  }
-};
+
+    try {
+      if (authMode === "login") {
+        const data = await loginUser({ username, password });
+        alert(`Welcome back, ${data.username}!`);
+      } else {
+        const data = await registerUser({ username, email, password });
+        alert(`Account created for ${data.username}`);
+      }
+      setShowModal(false);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   const toggleAuthMode = (e) => {
     e.preventDefault();
     setAuthMode((m) => (m === "login" ? "signup" : "login"));
+  };
+
+  // Функция плавного скролла к секции
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
@@ -87,16 +94,13 @@ const handleAuth = async (e) => {
         className="navbar"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          "--cursor-x": "50%",
-        }}
+        style={{ "--cursor-x": "50%" }}
       >
         <div className="nav-left">PoincaréLab</div>
 
         <div className="nav-center">
-          <a href="#about">About</a>
-          <a href="#approach">Approach</a>
-          <a href="#contacts">Contacts</a>
+          <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
+          <a href="#contacts"onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
         </div>
 
         <div className="nav-right">
@@ -121,7 +125,7 @@ const handleAuth = async (e) => {
       >
         <h1 className="main-title animate-gradient">Frontier. Advanced. Reasoning.</h1>
         <p className="main-description">
-          Towards Probabilistic Reinforcement Learing
+          Towards Probabilistic Reinforcement Learning
         </p>
       </motion.div>
 

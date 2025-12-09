@@ -5,11 +5,12 @@ import { BlockMath, InlineMath } from "react-katex";
 import "./SecondBlock.css";
 
 import backgroundGif from "../assets/heart.gif";
-import deeplearningGif from "../assets/art.gif";
+import darkneon from "../assets/art.gif";
 
 const SecondBlock = () => {
   return (
     <section
+      id="approach"
       className="second-block"
       style={{ backgroundImage: `url(${backgroundGif})` }}
     >
@@ -23,7 +24,7 @@ const SecondBlock = () => {
           transition={{ duration: 1 }}
         >
           <h2 className="about-title">about</h2>
-          <img src={deeplearningGif} alt="Deep Learning" className="title-gif" />
+          <img src={darkneon} alt="Deep Learning" className="title-gif" />
         </motion.div>
 
         <motion.div
@@ -33,9 +34,9 @@ const SecondBlock = () => {
           transition={{ duration: 1.4, delay: 0.3 }}
         >
           <p>
-            We propose a reinforcement learning policy designed for tasks from the <strong>Abstraction and Reasoning Corpus</strong> benchmark.  
+            We propose a reinforcement learning policy specifically designed for tasks from the <strong>Abstraction and Reasoning Corpus</strong> benchmark.  
 The core idea is to embed a <strong>probabilistic reasoning layer</strong> into the policy structure, allowing the agent to evaluate possible next actions through a weighted probabilistic model rather than deterministic logits.  
-This approach captures the combinatorial, compositional, and analogical nature of ARC transformations.
+This approach captures the combinatorial, compositional and analogical nature of ARC transformations.
           </p>
         </motion.div>
 
