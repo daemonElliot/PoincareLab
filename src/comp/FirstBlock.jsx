@@ -97,11 +97,11 @@ export default function FirstBlock() {
       >
         <div className="nav-left">PoincaréLab</div>
 
-        <div className="nav-center">
+        {/* <div className="nav-center">
           <a href="#about"onClick={(e) => scrollToSection(e, "about")}>About</a>
           <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
           <a href="#contacts"onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
-        </div>
+        </div> */}
 
         <div className="nav-right">
           <motion.button
@@ -124,9 +124,9 @@ export default function FirstBlock() {
         transition={{ delay: 0.5, duration: 1 }}
       >
         <h1 className="main-title animate-gradient">Frontier. Advanced. Reasoning.</h1>
-        <p className="main-description">
-          Towards truly abstract
-        </p>
+        <h3 className="main-description">
+          truly abstract
+        </h3>
       </motion.div>
       <div className="main-cta-wrapper">
         <motion.button
@@ -137,7 +137,7 @@ export default function FirstBlock() {
           }}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.5 }}
+          transition={{ delay: 0.5, duration: 1 }}
         >
           Join waitlist
         </motion.button>
