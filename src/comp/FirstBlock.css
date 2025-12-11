@@ -122,6 +122,61 @@
   margin-bottom: 1rem;
 }
 
+.main-cta-wrapper {
+    position: absolute;
+    top: 64%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.waitlist-btn {
+    background: rgba(255, 255, 255, 0.08); 
+    color: #fff;
+    border: 1px solid rgba(123, 94, 255, 0.5); 
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px; 
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: 
+        background-color 0.3s ease, 
+        border-color 0.3s ease, 
+        box-shadow 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.waitlist-btn:hover {
+    background: rgba(123, 94, 255, 0.15); 
+    border-color: #7b5eff;
+    box-shadow: 0 0 15px rgba(123, 94, 255, 0.4); 
+}
+
+.firstblock-container .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e6e6e6;
+    letter-spacing: 0.05em;
+}
+
+.firstblock-container .nav-auth-btn {
+    background: linear-gradient(90deg, #ff72ff, #7b5eff);
+    border: none;
+    border-radius: 15px;
+    padding: 0.5rem 1rem;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.1s ease;
+}
+
 .animate-gradient {
   background-size: 200% auto;
   animation: gradientMove 5s linear infinite;

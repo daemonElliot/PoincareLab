@@ -98,6 +98,7 @@ export default function FirstBlock() {
         <div className="nav-left">PoincaréLab</div>
 
         <div className="nav-center">
+          <a href="#about"onClick={(e) => scrollToSection(e, "about")}>About</a>
           <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
           <a href="#contacts"onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
         </div>
@@ -124,9 +125,23 @@ export default function FirstBlock() {
       >
         <h1 className="main-title animate-gradient">Frontier. Advanced. Reasoning.</h1>
         <p className="main-description">
-          Towards Probabilistic Reinforcement Learning
+          Towards truly abstract
         </p>
       </motion.div>
+      <div className="main-cta-wrapper">
+        <motion.button
+          className="waitlist-btn"
+          onClick={() => {
+            setAuthMode('signup'); 
+            setShowModal(true);
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.5 }}
+        >
+          Join waitlist
+        </motion.button>
+      </div>
 
       <AnimatePresence>
         {showModal && (

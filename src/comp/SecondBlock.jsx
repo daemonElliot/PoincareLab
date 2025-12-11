@@ -23,7 +23,7 @@ const SecondBlock = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h2 className="about-title">about</h2>
+          <h2 className="about-title">approach</h2>
           <img src={darkneon} alt="Deep Learning" className="title-gif" />
         </motion.div>
 
@@ -34,7 +34,7 @@ const SecondBlock = () => {
           transition={{ duration: 1.4, delay: 0.3 }}
         >
           <p>
-            We propose a reinforcement learning policy specifically designed for tasks from the <strong>Abstraction and Reasoning Corpus</strong> benchmark.  
+            To tackle this problem, we propose, as one possible approach, a reinforcement learning policy specifically designed for tasks from the <strong>Abstraction and Reasoning Corpus</strong> benchmark.  
 The core idea is to embed a <strong>probabilistic reasoning layer</strong> into the policy structure, allowing the agent to evaluate possible next actions through a weighted probabilistic model rather than deterministic logits.  
 This approach captures the combinatorial, compositional and analogical nature of ARC transformations.
           </p>

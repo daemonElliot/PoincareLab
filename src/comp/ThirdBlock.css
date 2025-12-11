@@ -52,7 +52,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: transparent; /* оставлено пустым */
+  background: transparent; 
   border: 1px dashed rgba(109, 213, 250, 0.3);
   box-shadow: 0 0 15px rgba(41, 128, 185, 0.2);
 }
