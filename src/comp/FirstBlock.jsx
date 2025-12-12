@@ -97,11 +97,11 @@ export default function FirstBlock() {
       >
         <div className="nav-left">PoincaréLab</div>
 
-        {/* <div className="nav-center">
+        <div className="nav-center">
           <a href="#about"onClick={(e) => scrollToSection(e, "about")}>About</a>
           <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
           <a href="#contacts"onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
-        </div> */}
+        </div>
 
         <div className="nav-right">
           <motion.button
