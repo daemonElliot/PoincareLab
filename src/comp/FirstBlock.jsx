@@ -125,7 +125,6 @@ export default function FirstBlock() {
       >
         <h1 className="main-title animate-gradient">Frontier. Advanced. Reasoning.</h1>
         <h3 className="main-description">
-          truly abstract
         </h3>
       </motion.div>
       <div className="main-cta-wrapper">
