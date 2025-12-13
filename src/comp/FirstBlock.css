@@ -294,3 +294,21 @@
 .link-btn:hover {
   opacity: 0.9;
 }
+
+.primary-auth-btn .spinner-border {
+    display: inline-block;
+}
+
+.primary-auth-btn:disabled {
+    background: linear-gradient(135deg, #3c2f74, #005f77); 
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.8;
+}
+
+.error-message {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}

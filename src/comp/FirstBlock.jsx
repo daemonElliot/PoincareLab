@@ -4,11 +4,25 @@ import "./FirstBlock.css";
 import bgGif from "../assets/analog.gif";
 import { registerUser, loginUser } from "../api";
 
+const modalVariants = {
+  hidden: { scale: 0.9, opacity: 0 },
+  visible: { scale: 1, opacity: 1 },
+  exit: { scale: 0.9, opacity: 0 },
+};
+
+const itemVariants = {
+  hidden: { y: 10, opacity: 0 },
+  visible: { y: 0, opacity: 1 },
+};
+
+
 export default function FirstBlock() {
   const [showModal, setShowModal] = useState(false);
-  const [authMode, setAuthMode] = useState("login"); 
-  const navRef = useRef(null);
+  const [authMode, setAuthMode] = useState("login");
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
 
+  const navRef = useRef(null);
   const rafRef = useRef(null);
   const latestXRef = useRef(null);
 
@@ -44,33 +58,42 @@ export default function FirstBlock() {
 
   const handleAuth = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(""); 
+    
     const form = e.target.closest("form");
     const formData = new FormData(form);
-    const username = (formData.get("username") || "").trim();
+    
+    const usernameInput = (formData.get("username") || "").trim();
     const password = (formData.get("password") || "").trim();
-    const email = (formData.get("email") || "").trim();
+    const emailInput = (formData.get("email") || "").trim();
 
-    if (!username || !password || (authMode === "signup" && !email)) {
-      alert("Please fill all required fields.");
+    if (!usernameInput || !password || (authMode === "signup" && !emailInput)) {
+      setError("Please fill all required fields.");
+      setLoading(false);
       return;
     }
-
+    
     try {
       if (authMode === "login") {
-        const data = await loginUser({ username, password });
-        alert(`Welcome back, ${data.username}!`);
+        const data = await loginUser({ email: usernameInput, password });
+        setError(`Welcome back, ${data.username}!`); 
+        setTimeout(() => setShowModal(false), 1000);
       } else {
-        const data = await registerUser({ username, email, password });
-        alert(`Account created for ${data.username}`);
+        const data = await registerUser({ username: usernameInput, email: emailInput, password });
+        setError(`Success!`);
+        setTimeout(() => setShowModal(false), 2000);
       }
-      setShowModal(false);
     } catch (err) {
-      alert(err.message);
+      setError(err.message || "An unknown error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const toggleAuthMode = (e) => {
     e.preventDefault();
+    setError(""); 
     setAuthMode((m) => (m === "login" ? "signup" : "login"));
   };
 
@@ -96,19 +119,18 @@ export default function FirstBlock() {
         style={{ "--cursor-x": "50%" }}
       >
         <div className="nav-left">PoincaréLab</div>
-
         <div className="nav-center">
           <a href="#about"onClick={(e) => scrollToSection(e, "about")}>About</a>
           <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
           <a href="#contacts"onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
         </div>
-
         <div className="nav-right">
           <motion.button
             whileHover={{ scale: 1.05 }}
             className="login-btn"
             onClick={() => {
               setAuthMode("login");
+              setError(""); 
               setShowModal(true);
             }}
           >
@@ -132,6 +154,7 @@ export default function FirstBlock() {
           className="waitlist-btn"
           onClick={() => {
             setAuthMode('signup'); 
+            setError(""); 
             setShowModal(true);
           }}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -154,34 +177,99 @@ export default function FirstBlock() {
             <motion.div
               className="modal"
               onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               transition={{ type: "spring", stiffness: 120, damping: 18 }}
             >
-              <h2>{authMode === "login" ? "Welcome back" : "Create an account"}</h2>
-
-              <form onSubmit={handleAuth} className="auth-form" autoComplete="off">
-                <input name="username" placeholder="Username" />
-                {authMode === "signup" && <input name="email" placeholder="Email" type="email" />}
-                <input name="password" type="password" placeholder="Password" />
-                <button type="submit" className="primary-auth-btn">
-                  {authMode === "login" ? "Sign in" : "Sign up"}
-                </button>
-              </form>
+              <h2>{authMode === "login" ? "Welcome back" : "Join the Waitlist"}</h2>
+              
+              <AnimatePresence mode="wait">
+                {error && (
+                  <motion.p
+                    key="error"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="error-message"
+                    style={{ 
+                      color: error.includes("Success") || error.includes("Welcome") ? '#00d4ff' : '#ff72ff', 
+                      fontSize: '0.85rem',
+                      overflow: 'hidden',
+                      margin: '0',
+                      padding: '0 0.5rem',
+                      fontWeight: '500'
+                    }}
+                  >
+                    {error}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              
+              <motion.form 
+                onSubmit={handleAuth} 
+                className="auth-form" 
+                autoComplete="off"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { 
+                    transition: {
+                      staggerChildren: 0.08,
+                    } 
+                  }
+                }}
+              >
+                <motion.input 
+                  name="username" 
+                  placeholder={authMode === "login" ? "Email" : "Username"} 
+                  type={authMode === "login" ? "email" : "text"} 
+                  variants={itemVariants} 
+                />
+                
+                {authMode === "signup" && (
+                  <motion.input 
+                    name="email" 
+                    placeholder="Email" 
+                    type="email" 
+                    variants={itemVariants} 
+                  />
+                )}
+                
+                <motion.input 
+                  name="password" 
+                  type="password" 
+                  placeholder="Password" 
+                  variants={itemVariants} 
+                />
+                
+                <motion.button 
+                  type="submit" 
+                  className="primary-auth-btn" 
+                  disabled={loading}
+                  variants={itemVariants}
+                  whileHover={{ scale: loading ? 1 : 1.01, translateY: loading ? 0 : -3 }}
+                >
+                  {loading 
+                    ? <span className="spinner-border">Processing...</span> 
+                    : (authMode === "login" ? "Sign in" : "Join Waitlist")
+                  }
+                </motion.button>
+              </motion.form>
 
               <p className="switch-line">
                 {authMode === "login" ? (
                   <>
-                    Don't have an account?{" "}
-                    <button className="link-btn" onClick={toggleAuthMode}>
-                      Sign up
+                    No account yet?{" "}
+                    <button className="link-btn" onClick={toggleAuthMode} disabled={loading}>
+                      Join waitlist
                     </button>
                   </>
                 ) : (
                   <>
                     Already have an account?{" "}
-                    <button className="link-btn" onClick={toggleAuthMode}>
+                    <button className="link-btn" onClick={toggleAuthMode} disabled={loading}>
                       Sign in
                     </button>
                   </>

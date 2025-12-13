@@ -31,6 +31,15 @@ pids
 
 .stylelintcache
 
+venv/
+.venv/
+
+__pycache__/
+*.pyc
+*.log
+
+.env
+
 *.tmp
 *.temp
 

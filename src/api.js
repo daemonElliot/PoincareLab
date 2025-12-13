@@ -1,31 +1,66 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { supabase } from "./supabaseClient";
 
-export async function registerUser({ username, email, password }) {
-  const response = await fetch(`${API_URL}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, email, password }),
-  });
+export const registerUser = async ({ username, email, password }) => {
+  const { data: existingProfile } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("username", username)
+    .maybeSingle(); 
 
-  if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.detail || "Registration failed");
+  if (existingProfile) {
+    throw new Error("Username already taken.");
   }
 
-  return response.json();
-}
-
-export async function loginUser({ username, password }) {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+  const { data, error: signUpError } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        username: username,
+      },
+    },
   });
 
-  if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.detail || "Login failed");
+  if (signUpError) {
+    throw new Error(signUpError.message);
+  }
+    
+  return { 
+    user: data.user, 
+    username: username 
+  };
+};
+
+export const loginUser = async ({ email, password }) => {
+  const { data, error: signInError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (signInError) {
+    throw new Error(signInError.message);
   }
 
-  return response.json();
-}
+  if (!data.user) {
+    throw new Error("Login failed: User object is missing.");
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('id', data.user.id)
+    .single();
+
+  if (profileError) {
+    console.error("Error fetching profile:", profileError);
+    return { 
+      user: data.user, 
+      username: data.user.email 
+    };
+  }
+
+  return { 
+    user: data.user, 
+    username: profile.username 
+  };
+};
