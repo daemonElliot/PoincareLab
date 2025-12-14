@@ -15,13 +15,13 @@ const itemVariants = {
   visible: { y: 0, opacity: 1 },
 };
 
-
 export default function FirstBlock() {
   const [showModal, setShowModal] = useState(false);
   const [authMode, setAuthMode] = useState("login");
-  const [loading, setLoading] = useState(false); 
-  const [error, setError] = useState(""); 
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+    
   const navRef = useRef(null);
   const rafRef = useRef(null);
   const latestXRef = useRef(null);
@@ -37,7 +37,6 @@ export default function FirstBlock() {
     const rect = navRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     latestXRef.current = x;
-
     if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(() => {
         if (navRef.current && latestXRef.current != null) {
@@ -81,7 +80,7 @@ export default function FirstBlock() {
         setTimeout(() => setShowModal(false), 1000);
       } else {
         const data = await registerUser({ username: usernameInput, email: emailInput, password });
-        setError(`Success!`);
+        setError(`Success! Check your email to confirm registration for ${data.username}.`);
         setTimeout(() => setShowModal(false), 2000);
       }
     } catch (err) {
@@ -103,6 +102,7 @@ export default function FirstBlock() {
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -119,25 +119,63 @@ export default function FirstBlock() {
         style={{ "--cursor-x": "50%" }}
       >
         <div className="nav-left">PoincaréLab</div>
-        <div className="nav-center">
-          <a href="#about"onClick={(e) => scrollToSection(e, "about")}>About</a>
+        <div className="nav-center desktop-only"> 
+          <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About</a>
           <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
-          <a href="#contacts"onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
+          <a href="#contacts" onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
         </div>
         <div className="nav-right">
           <motion.button
             whileHover={{ scale: 1.05 }}
-            className="login-btn"
+            className="login-btn desktop-only" 
             onClick={() => {
               setAuthMode("login");
-              setError(""); 
+              setError("");
               setShowModal(true);
             }}
           >
             Login / Sign up
           </motion.button>
+          <button 
+            className="menu-toggle-btn mobile-only" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-nav-menu"
+          >
+            {isMenuOpen ? "✕" : "☰"}
+          </button>
         </div>
       </motion.nav>
+      
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            id="mobile-nav-menu"
+            className="mobile-menu"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About</a>
+            <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
+            <a href="#contacts" onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
+            <motion.button
+                className="login-btn"
+                onClick={() => {
+                  setAuthMode("login");
+                  setError("");
+                  setShowModal(true);
+                  setIsMenuOpen(false); 
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.1 }}
+            >
+                Login / Sign up
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         className="main-content"
@@ -149,12 +187,13 @@ export default function FirstBlock() {
         <h3 className="main-description">
         </h3>
       </motion.div>
+      
       <div className="main-cta-wrapper">
         <motion.button
           className="waitlist-btn"
           onClick={() => {
             setAuthMode('signup'); 
-            setError(""); 
+            setError("");
             setShowModal(true);
           }}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -184,7 +223,6 @@ export default function FirstBlock() {
               transition={{ type: "spring", stiffness: 120, damping: 18 }}
             >
               <h2>{authMode === "login" ? "Welcome back" : "Join the Waitlist"}</h2>
-              
               <AnimatePresence mode="wait">
                 {error && (
                   <motion.p
@@ -194,7 +232,7 @@ export default function FirstBlock() {
                     exit={{ opacity: 0, height: 0 }}
                     className="error-message"
                     style={{ 
-                      color: error.includes("Success") || error.includes("Welcome") ? '#00d4ff' : '#ff72ff', 
+                      color: error.includes("Success") || error.includes("Welcome") ? '#00d4ff' : '#ff72ff',
                       fontSize: '0.85rem',
                       overflow: 'hidden',
                       margin: '0',
@@ -215,9 +253,7 @@ export default function FirstBlock() {
                 animate="visible"
                 variants={{
                   visible: { 
-                    transition: {
-                      staggerChildren: 0.08,
-                    } 
+                    transition: { staggerChildren: 0.08 } 
                   }
                 }}
               >
@@ -227,23 +263,10 @@ export default function FirstBlock() {
                   type={authMode === "login" ? "email" : "text"} 
                   variants={itemVariants} 
                 />
-                
                 {authMode === "signup" && (
-                  <motion.input 
-                    name="email" 
-                    placeholder="Email" 
-                    type="email" 
-                    variants={itemVariants} 
-                  />
+                  <motion.input name="email" placeholder="Email" type="email" variants={itemVariants} />
                 )}
-                
-                <motion.input 
-                  name="password" 
-                  type="password" 
-                  placeholder="Password" 
-                  variants={itemVariants} 
-                />
-                
+                <motion.input name="password" type="password" placeholder="Password" variants={itemVariants} />
                 <motion.button 
                   type="submit" 
                   className="primary-auth-btn" 
@@ -279,6 +302,6 @@ export default function FirstBlock() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+          </div>
   );
 }

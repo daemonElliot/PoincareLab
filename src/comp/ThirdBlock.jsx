@@ -27,14 +27,8 @@ const ThirdBlock = () => {
           transition={{ duration: 1.4, delay: 0.3 }}
         >
           <p className="contacts-text">
-            This section will be updated soon.
+            The section will be updated soon.
           </p>
-
-          {/* <div className="contacts-list">
-            <a href="https://t.me/ldersson" target="_blank" rel="noreferrer">
-              t.me/ldersson
-            </a>
-          </div> */}
         </motion.div>
 
         <motion.div
