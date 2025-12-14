@@ -63,23 +63,33 @@ export default function FirstBlock() {
     const form = e.target.closest("form");
     const formData = new FormData(form);
     
-    const usernameInput = (formData.get("username") || "").trim();
+    // В Login mode, 'username' - это email
+    // В Signup mode, 'username' - это username, и есть отдельное поле email
+    let loginIdentifier = (formData.get("username") || "").trim(); 
     const password = (formData.get("password") || "").trim();
     const emailInput = (formData.get("email") || "").trim();
 
-    if (!usernameInput || !password || (authMode === "signup" && !emailInput)) {
-      setError("Please fill all required fields.");
-      setLoading(false);
-      return;
+    // Проверка для Login: нужен loginIdentifier (Email) и password
+    if (authMode === "login" && (!loginIdentifier || !password)) {
+        setError("Please fill in your Email and Password.");
+        setLoading(false);
+        return;
+    }
+
+    // Проверка для Signup: нужны username, email и password
+    if (authMode === "signup" && (!loginIdentifier || !password || !emailInput)) {
+        setError("Please fill all required fields (Username, Email, Password).");
+        setLoading(false);
+        return;
     }
     
     try {
       if (authMode === "login") {
-        const data = await loginUser({ email: usernameInput, password });
+        const data = await loginUser({ email: loginIdentifier, password });
         setError(`Welcome back, ${data.username}!`); 
         setTimeout(() => setShowModal(false), 1000);
       } else {
-        const data = await registerUser({ username: usernameInput, email: emailInput, password });
+        const data = await registerUser({ username: loginIdentifier, email: emailInput, password });
         setError(`Success! Check your email to confirm registration for ${data.username}.`);
         setTimeout(() => setShowModal(false), 2000);
       }
@@ -90,12 +100,6 @@ export default function FirstBlock() {
     }
   };
 
-  const toggleAuthMode = (e) => {
-    e.preventDefault();
-    setError(""); 
-    setAuthMode((m) => (m === "login" ? "signup" : "login"));
-  };
-
   const scrollToSection = (e, id) => {
     e.preventDefault();
     const section = document.getElementById(id);
@@ -104,6 +108,14 @@ export default function FirstBlock() {
     }
     setIsMenuOpen(false);
   };
+
+  // Функция toggleAuthMode, которая вызывается при нажатии Login/Sign up в навигации
+  const toggleAuthMode = (e) => {
+    e.preventDefault();
+    setError(""); 
+    setAuthMode((m) => (m === "login" ? "signup" : "login"));
+  };
+
 
   return (
     <div className="firstblock-container">
@@ -129,12 +141,13 @@ export default function FirstBlock() {
             whileHover={{ scale: 1.05 }}
             className="login-btn desktop-only" 
             onClick={() => {
-              setAuthMode("login");
+              // В навигации всегда начинаем с LOGIN
+              setAuthMode("login"); 
               setError("");
               setShowModal(true);
             }}
           >
-            Login / Sign up
+            Login / Sign up {/* Кнопка сохранена */}
           </motion.button>
           <button 
             className="menu-toggle-btn mobile-only" 
@@ -192,7 +205,7 @@ export default function FirstBlock() {
         <motion.button
           className="waitlist-btn"
           onClick={() => {
-            setAuthMode('signup'); 
+            setAuthMode('signup'); // Кнопка "Join waitlist" всегда открывает режим SIGNUP
             setError("");
             setShowModal(true);
           }}
@@ -257,16 +270,34 @@ export default function FirstBlock() {
                   }
                 }}
               >
+                {/* 1. ПЕРВОЕ ПОЛЕ - МЕНЯЕТСЯ В ЗАВИСИМОСТИ ОТ РЕЖИМА */}
                 <motion.input 
                   name="username" 
                   placeholder={authMode === "login" ? "Email" : "Username"} 
                   type={authMode === "login" ? "email" : "text"} 
                   variants={itemVariants} 
                 />
-                {authMode === "signup" && (
-                  <motion.input name="email" placeholder="Email" type="email" variants={itemVariants} />
-                )}
+                
+                {/* 2. ПОЛЕ EMAIL - РЕНДЕРИТСЯ ТОЛЬКО ДЛЯ SIGNUP */}
+                <AnimatePresence initial={false}>
+                  {authMode === "signup" && (
+                    <motion.input 
+                      key="emailInput" 
+                      name="email" 
+                      placeholder="Email" 
+                      type="email" 
+                      variants={itemVariants} 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      style={{ overflow: 'hidden' }}
+                    />
+                  )}
+                </AnimatePresence>
+
+                {/* 3. ПОЛЕ PASSWORD */}
                 <motion.input name="password" type="password" placeholder="Password" variants={itemVariants} />
+                
                 <motion.button 
                   type="submit" 
                   className="primary-auth-btn" 
@@ -281,18 +312,20 @@ export default function FirstBlock() {
                 </motion.button>
               </motion.form>
 
+              {/* ВОЗВРАЩАЕМ КНОПКИ ПЕРЕКЛЮЧЕНИЯ РЕЖИМА ВНУТРИ МОДАЛА
+                   (Вы хотели их убрать, но для Login/Sign up в навигации они нужны) */}
               <p className="switch-line">
                 {authMode === "login" ? (
                   <>
                     No account yet?{" "}
-                    <button className="link-btn" onClick={toggleAuthMode} disabled={loading}>
+                    <button className="link-btn" onClick={() => setAuthMode('signup')} disabled={loading}>
                       Join waitlist
                     </button>
                   </>
                 ) : (
                   <>
                     Already have an account?{" "}
-                    <button className="link-btn" onClick={toggleAuthMode} disabled={loading}>
+                    <button className="link-btn" onClick={() => setAuthMode('login')} disabled={loading}>
                       Sign in
                     </button>
                   </>
