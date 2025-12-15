@@ -50,15 +50,6 @@ const AboutBlock = () => {
         >
           We are people who commit ourselves to advancing the frontier of genuine AI reasoning models, working collectively to provide resilient, precisely engineered solutions for high-dimensional decision-making challenges.
         </motion.p>
-
-        <div className="cards-grid">
-          <motion.div className="glass-card" variants={itemVariants}>
-            <span className="card-number">01</span>
-            <h2>
-              AI that works for every human being 
-            </h2>
-          </motion.div>
-        </div>
       </motion.div>
     </section>
   );

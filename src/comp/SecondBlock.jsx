@@ -104,7 +104,7 @@ const SecondBlock = () => {
           <h3 className="section-subtitle">Bayesian Weight Dynamics</h3>
           
           <div>
-            We introduce a Bayesian prior over the weight functions:
+            A Bayesian prior over the weight functions:
           </div>
 
           <BlockMath math="\alpha_i \sim \mathrm{Dirichlet}(\beta)" />

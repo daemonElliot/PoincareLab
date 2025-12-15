@@ -63,20 +63,16 @@ export default function FirstBlock() {
     const form = e.target.closest("form");
     const formData = new FormData(form);
     
-    // В Login mode, 'username' - это email
-    // В Signup mode, 'username' - это username, и есть отдельное поле email
     let loginIdentifier = (formData.get("username") || "").trim(); 
     const password = (formData.get("password") || "").trim();
     const emailInput = (formData.get("email") || "").trim();
 
-    // Проверка для Login: нужен loginIdentifier (Email) и password
     if (authMode === "login" && (!loginIdentifier || !password)) {
         setError("Please fill in your Email and Password.");
         setLoading(false);
         return;
     }
 
-    // Проверка для Signup: нужны username, email и password
     if (authMode === "signup" && (!loginIdentifier || !password || !emailInput)) {
         setError("Please fill all required fields (Username, Email, Password).");
         setLoading(false);
@@ -109,7 +105,6 @@ export default function FirstBlock() {
     setIsMenuOpen(false);
   };
 
-  // Функция toggleAuthMode, которая вызывается при нажатии Login/Sign up в навигации
   const toggleAuthMode = (e) => {
     e.preventDefault();
     setError(""); 
@@ -141,13 +136,12 @@ export default function FirstBlock() {
             whileHover={{ scale: 1.05 }}
             className="login-btn desktop-only" 
             onClick={() => {
-              // В навигации всегда начинаем с LOGIN
               setAuthMode("login"); 
               setError("");
               setShowModal(true);
             }}
           >
-            Login / Sign up {/* Кнопка сохранена */}
+            Login / Sign up 
           </motion.button>
           <button 
             className="menu-toggle-btn mobile-only" 
@@ -194,9 +188,11 @@ export default function FirstBlock() {
         className="main-content"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1 }}
+        transition={{ delay: 0.5, duration: 1.2 }}
       >
         <h1 className="main-title animate-gradient">Frontier. Advanced. Reasoning.</h1>
+        <h3 className="description">ARC-AGI-3 solution by <span className="gradient-description">Poincaré</span> team.</h3>
+        <p className="description">Soon.</p>
         <h3 className="main-description">
         </h3>
       </motion.div>
@@ -205,7 +201,7 @@ export default function FirstBlock() {
         <motion.button
           className="waitlist-btn"
           onClick={() => {
-            setAuthMode('signup'); // Кнопка "Join waitlist" всегда открывает режим SIGNUP
+            setAuthMode('signup'); 
             setError("");
             setShowModal(true);
           }}
@@ -270,7 +266,6 @@ export default function FirstBlock() {
                   }
                 }}
               >
-                {/* 1. ПЕРВОЕ ПОЛЕ - МЕНЯЕТСЯ В ЗАВИСИМОСТИ ОТ РЕЖИМА */}
                 <motion.input 
                   name="username" 
                   placeholder={authMode === "login" ? "Email" : "Username"} 
@@ -278,7 +273,6 @@ export default function FirstBlock() {
                   variants={itemVariants} 
                 />
                 
-                {/* 2. ПОЛЕ EMAIL - РЕНДЕРИТСЯ ТОЛЬКО ДЛЯ SIGNUP */}
                 <AnimatePresence initial={false}>
                   {authMode === "signup" && (
                     <motion.input 
@@ -295,7 +289,6 @@ export default function FirstBlock() {
                   )}
                 </AnimatePresence>
 
-                {/* 3. ПОЛЕ PASSWORD */}
                 <motion.input name="password" type="password" placeholder="Password" variants={itemVariants} />
                 
                 <motion.button 
@@ -312,8 +305,6 @@ export default function FirstBlock() {
                 </motion.button>
               </motion.form>
 
-              {/* ВОЗВРАЩАЕМ КНОПКИ ПЕРЕКЛЮЧЕНИЯ РЕЖИМА ВНУТРИ МОДАЛА
-                   (Вы хотели их убрать, но для Login/Sign up в навигации они нужны) */}
               <p className="switch-line">
                 {authMode === "login" ? (
                   <>
