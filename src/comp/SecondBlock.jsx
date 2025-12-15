@@ -34,7 +34,7 @@ const SecondBlock = () => {
           transition={{ duration: 1.4, delay: 0.3 }}
         >
           <p>
-            To tackle this problem, we propose, as one possible approach, a reinforcement learning policy specifically designed for tasks from the <strong>Abstraction and Reasoning Corpus</strong> benchmark.  
+            To tackle this problem, we begin by considering, as one possible approach, a reinforcement learning policy specifically designed for tasks from the <strong>Abstraction and Reasoning Corpus</strong> benchmark.  
             The core idea is to embed a <strong>probabilistic reasoning layer</strong> into the policy structure, allowing the agent to evaluate possible next actions through a weighted probabilistic model rather than deterministic logits.  
             This approach captures the combinatorial, compositional and analogical nature of ARC transformations.
           </p>

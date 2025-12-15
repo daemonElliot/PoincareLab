@@ -191,7 +191,7 @@ export default function FirstBlock() {
         transition={{ delay: 0.5, duration: 1.2 }}
       >
         <h1 className="main-title animate-gradient">Frontier. Advanced. Reasoning.</h1>
-        <h3 className="description">ARC-AGI-3 solution by <span className="gradient-description">Poincaré</span> team.</h3>
+        <h3 className="description">ARC-AGI-3 solution by <span className="gradient-description">Poincaré</span> team💙</h3>
         <p className="description">Soon.</p>
         <h3 className="main-description">
         </h3>
