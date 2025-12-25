@@ -80,9 +80,29 @@
 }
 
 .nav-left {
-  font-weight: 700;
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
 }
+
+.nav-logo {
+  height: 32px;
+  width: auto;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.nav-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.35));
+}
+
+@media (max-width: 768px) {
+  .nav-logo {
+    height: 28px;
+  }
+}
+
 
 .nav-center {
   display: flex;
@@ -90,7 +110,7 @@
 }
 
 .nav-center a {
-  color: #d8d8d8;
+  color: #f2ecec;
   text-decoration: none;
   font-weight: 500;
   position: relative;

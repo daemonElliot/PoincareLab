@@ -125,31 +125,38 @@ export default function FirstBlock() {
         onMouseLeave={handleMouseLeave}
         style={{ "--cursor-x": "50%" }}
       >
-        <div className="nav-left">PoincaréLab</div>
-        <div className="nav-center desktop-only"> 
+        <div className="nav-left">
+          <img
+            src="/logowhite.svg"
+            alt="PoincareLab logo"
+            className="nav-logo"
+          />
+        </div>
+
+        <div className="nav-center desktop-only">
           <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About</a>
           <a href="#approach" onClick={(e) => scrollToSection(e, "approach")}>Approach</a>
           <a href="#contacts" onClick={(e) => scrollToSection(e, "contacts")}>Contacts</a>
         </div>
+
         <div className="nav-right">
           <motion.button
             whileHover={{ scale: 1.05 }}
-            className="login-btn desktop-only" 
+            className="login-btn desktop-only"
             onClick={() => {
-              setAuthMode("login"); 
+              setAuthMode("login");
               setError("");
               setShowModal(true);
             }}
           >
-            Login / Sign up 
+            Login / Sign up
           </motion.button>
-          <button 
-            className="menu-toggle-btn mobile-only" 
+
+          <button
+            className="menu-toggle-btn mobile-only"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-nav-menu"
           >
-            {isMenuOpen ? "✕" : "☰"}
+            {isMenuOpen ? "✕ 💔" : "☰ 💙"}
           </button>
         </div>
       </motion.nav>

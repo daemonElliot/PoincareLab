@@ -48,7 +48,7 @@ const AboutBlock = () => {
           className="about-intro-text"
           variants={itemVariants} 
         >
-          We are people who commit ourselves to advancing the frontier of genuine AI reasoning models, working collectively to provide resilient, precisely engineered solutions for high-dimensional decision-making challenges.
+          We are people who are dedicated to advancing the frontier of genuine AI reasoning models, working collectively to provide resilient, precisely engineered solutions for high-dimensional decision-making challenges.
         </motion.p>
       </motion.div>
     </section>

@@ -70,15 +70,15 @@
 
 .contact-label, 
 .contact-email {
-  font-size: 0.75rem;
-  color: #d7dce1;
+  font-size: 0.90rem;
+  color: #edf0f3;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 400;
 }
 
 .contact-email {
-  color: #d7dce1;
+  color: #edf0f3;
 }
 
 
