@@ -22,13 +22,15 @@ const ThirdBlock = () => {
 
         <motion.div
           className="contacts-content"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.2 }}
         >
-          <p className="contacts-text">
-            The section will be updated soon.
-          </p>
+          <div className="contact-info">
+            <span className="contact-label">Inquiries</span>
+            <span className="contact-email">info@poincarelab.org</span>
+          </div>
         </motion.div>
 
         <motion.div

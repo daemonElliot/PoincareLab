@@ -61,11 +61,26 @@
   margin-top: 1.5rem;
 }
 
-.contacts-text {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem; 
 }
+
+.contact-label, 
+.contact-email {
+  font-size: 0.75rem;
+  color: #d7dce1;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 400;
+}
+
+.contact-email {
+  color: #d7dce1;
+}
+
 
 .contacts-list {
   display: flex;
